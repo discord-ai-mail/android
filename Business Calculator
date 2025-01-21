@@ -1,0 +1,126 @@
+#business calculator
+
+--XML code--
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <EditText
+        android:id="@+id/costPrice"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter Cost Price"
+        android:inputType="numberDecimal" />
+
+    <EditText
+        android:id="@+id/sellingPrice"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter Selling Price"
+        android:inputType="numberDecimal" />
+
+    <Button
+        android:id="@+id/btnProfit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Calculate Profit" />
+
+    <Button
+        android:id="@+id/btnLoss"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Calculate Loss" />
+
+    <TextView
+        android:id="@+id/result"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Result:"
+        android:textSize="16sp"
+        android:paddingTop="10dp" />
+</LinearLayout>
+
+
+
+
+
+--mainActivity java code--
+
+package com.example.businesscalculator;
+
+import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+
+public class MainActivity extends Activity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        // Initialize UI components
+        final EditText costPrice = (EditText) findViewById(R.id.costPrice);
+        final EditText sellingPrice = (EditText) findViewById(R.id.sellingPrice);
+        final TextView result = (TextView) findViewById(R.id.result);
+        Button btnProfit = (Button) findViewById(R.id.btnProfit);
+        Button btnLoss = (Button) findViewById(R.id.btnLoss);
+
+        // Handle Calculate Profit Button
+        btnProfit.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("NewApi") @Override
+            public void onClick(View v) {
+                String cpText = costPrice.getText().toString().trim();
+                String spText = sellingPrice.getText().toString().trim();
+
+
+
+                try {
+                    double cp = Double.parseDouble(cpText);
+                    double sp = Double.parseDouble(spText);
+
+                    if (sp > cp) {
+                        result.setText("Profit: " + (sp - cp));
+                    } else {
+                        result.setText("No Profit.");
+                    }
+                } catch (NumberFormatException e) {
+                    result.setText("Invalid input. Please enter numeric values.");
+                }
+            }
+        });
+
+        // Handle Calculate Loss Button
+        btnLoss.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String cpText = costPrice.getText().toString().trim();
+                String spText = sellingPrice.getText().toString().trim();
+
+
+
+                try {
+                    double cp = Double.parseDouble(cpText);
+                    double sp = Double.parseDouble(spText);
+
+                    if (cp > sp) {
+                        result.setText("Loss: " + (cp - sp));
+                    } else {
+                        result.setText("No Loss.");
+                    }
+                } catch (NumberFormatException e) {
+                    result.setText("Invalid input. Please enter numeric values.");
+                }
+            }
+        });
+    }
+}
