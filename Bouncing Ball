@@ -1,0 +1,128 @@
+#bouncing ball
+
+--Xml code---
+
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <Button
+        android:id="@+id/bounceBallButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:text="Bounce Ball" />
+
+    <ImageView
+        android:id="@+id/bounceBallImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/bounceBallButton"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/ball_shape" />
+
+</RelativeLayout>
+
+
+
+--Xml code in ball image the file located in under drawable folder file name like(ball_shape.xml)
+
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="oval" >
+
+    <solid android:color="#8c0000" />
+
+    <stroke
+        android:width="2dp"
+        android:color="#fff" />
+
+    <size
+        android:height="80dp"
+        android:width="80dp" />
+
+</shape>
+
+
+
+
+
+
+---mainActivity java code---
+
+package com.example.bounc;
+
+import android.app.Activity;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.animation.Animation;
+import android.view.animation.BounceInterpolator;
+import android.view.animation.TranslateAnimation;
+import android.view.animation.Animation.AnimationListener;
+import android.widget.Button;
+import android.widget.ImageView;
+
+public class MainActivity extends Activity {
+
+    private static final String TAG = "AnimationStarter";
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        Button bounceBallButton = (Button) findViewById(R.id.bounceBallButton);
+        final ImageView bounceBallImage = (ImageView) findViewById(R.id.bounceBallImage);
+
+        bounceBallButton.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                bounceBallImage.clearAnimation();
+                TranslateAnimation transAnim = new TranslateAnimation(0, 0, 0,
+                        getDisplayHeight()/2);
+                transAnim.setStartOffset(500);
+                transAnim.setDuration(3000);
+                transAnim.setFillAfter(true);
+                transAnim.setInterpolator(new BounceInterpolator());
+                transAnim.setAnimationListener(new AnimationListener() {
+
+                    @Override
+                    public void onAnimationStart(Animation animation) {
+                        Log.i(TAG, "Starting button dropdown animation");
+
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animation animation) {
+                        // TODO Auto-generated method stub
+
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animation animation) {
+                        Log.i(TAG,
+                                "Ending button dropdown animation. Clearing animation and setting layout");
+                        bounceBallImage.clearAnimation();
+                        final int left = bounceBallImage.getLeft();
+                        final int top = bounceBallImage.getTop();
+                        final int right = bounceBallImage.getRight();
+                        final int bottom = bounceBallImage.getBottom();
+                        bounceBallImage.layout(left, top, right, bottom);
+
+                    }
+                });
+                bounceBallImage.startAnimation(transAnim);
+            }
+        });
+
+    }
+
+    private int getDisplayHeight() {
+        return this.getResources().getDisplayMetrics().heightPixels;
+    }
+}
