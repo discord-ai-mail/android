@@ -1,0 +1,93 @@
+#color bg change
+
+--Xml code--
+
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:id="@+id/relativelayout1">
+
+    <Button
+        android:id="@+id/button1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="94dp"
+        android:layout_marginTop="87dp"
+        android:text="@string/cool" 
+        android:onClick="OnClick"/>
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/button1"
+        android:layout_centerVertical="true"
+        android:text="Button" />
+
+</RelativeLayout>
+
+
+
+
+--change string.xml it's located in res under value folder--
+
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">backgroundcolorapp</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+
+
+    <string name="cool">cool</string>
+
+    <color name="cool">#188FcF</color>
+
+</resources>
+
+
+
+--mainactivity java folder--
+
+package com.example.backgroundcolorapp;
+
+import android.app.Activity;
+import android.graphics.Color;
+import android.os.Bundle;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.webkit.WebView.FindListener;
+import android.widget.RelativeLayout;
+import android.widget.Button;
+import java.util.Random;
+
+public class MainActivity extends Activity {
+
+    RelativeLayout r1;
+    Button b1;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        r1=(RelativeLayout)findViewById(R.id.relativelayout1);
+
+        b1=(Button)findViewById(R.id.button1);
+
+        b1.setOnClickListener(new OnClickListener()
+        {
+        	@Override
+        	public void onClick(View arg0){
+        		r1.setBackgroundResource(R.color.cool);
+        	}
+        });
+
+
+
+    }
+}
